@@ -1,20 +1,45 @@
 <view class="container">
+  <!-- 背景装饰 -->
+  <view class="stars">
+    <view class="star" wx:for="{{[1,2,3,4,5,6,7,8,9,10]}}" wx:key="*this" style="top: {{item*10}}%; left: {{item*8}}%"></view>
+  </view>
+  <view class="fog"></view>
+
   <view class="header">
-    <view class="back-btn" bindtap="goBack">返回</view>
-    <view class="title">关卡：祭拜神树</view>
-    <view class="timer {{timeLeft <= 10 ? 'urgent' : ''}}">倒计时: {{timeLeft}}s</view>
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-arrow">❮</text> 返回
+    </view>
+    <view class="title-box">
+      <text class="title">祭拜神树</text>
+      <text class="subtitle">Sacrifice to the God Tree</text>
+    </view>
+    <view class="timer-container {{timeLeft <= 10 ? 'urgent' : ''}}">
+      <view class="timer-circle">
+        <text class="timer-num">{{timeLeft}}</text>
+      </view>
+    </view>
   </view>
 
   <view class="scene-area">
-    <view class="god-tree">
-      <view class="tree-crown"></view>
-      <view class="tree-trunk"></view>
+    <view class="god-tree-container">
+      <view class="god-tree">
+        <view class="tree-aura"></view>
+        <view class="tree-crown">
+          <view class="leaf-cluster"></view>
+          <view class="leaf-cluster right"></view>
+        </view>
+        <view class="tree-trunk"></view>
+      </view>
+      <view class="altar-stone"></view>
     </view>
-    <view class="village-bg"></view>
-    <view class="instruction-text">{{instructionText}}</view>
+    
+    <view class="instruction-box">
+      <text class="instruction-text">{{instructionText}}</text>
+    </view>
   </view>
 
   <view class="action-panel">
+    <view class="panel-bg"></view>
     <view 
       wx:for="{{steps}}" 
       wx:key="id" 
@@ -22,13 +47,16 @@
       bindtap="onActionClick" 
       data-id="{{item.id}}"
     >
-      <view class="icon">{{item.icon}}</view>
-      <view class="name">{{item.name}}</view>
+      <view class="talisman-paper">
+        <view class="icon">{{item.icon}}</view>
+        <view class="name">{{item.name}}</view>
+      </view>
     </view>
   </view>
 
   <view class="overlay" wx:if="{{gameState === 'idle' || gameState === 'success' || gameState === 'fail'}}">
-    <view class="modal">
+    <view class="modal {{gameState}}">
+      <view class="modal-decoration top"></view>
       <view class="modal-title" wx:if="{{gameState === 'idle'}}">祭祀仪式</view>
       <view class="modal-title" wx:elif="{{gameState === 'success'}}">祭拜成功</view>
       <view class="modal-title" wx:else>仪式未成</view>
@@ -44,6 +72,7 @@
       <button class="start-btn" bindtap="startGame">
         {{gameState === 'idle' ? '开始祭拜' : '再试一次'}}
       </button>
+      <view class="modal-decoration bottom"></view>
     </view>
   </view>
 </view>

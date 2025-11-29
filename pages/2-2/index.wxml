@@ -1,29 +1,45 @@
 <view class="container">
+  <view class="stage-curtain left"></view>
+  <view class="stage-curtain right"></view>
+  
   <view class="header">
-    <view class="back-btn" bindtap="goBack">返回</view>
-    <text class="title">关卡：恭请大哑巴</text>
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-arrow">❮</text> 返回
+    </view>
+    <view class="title-box">
+      <text class="title">恭请大哑巴</text>
+      <text class="subtitle">The Silent Ritual</text>
+    </view>
     <view class="timer-box {{timeLeft < 30 ? 'urgent' : ''}}">
-      <text>倒计时：{{timeLeft}}秒</text>
+      <view class="timer-icon">⏳</view>
+      <text class="timer-text">{{timeLeft}}</text>
     </view>
   </view>
 
   <view class="stage">
+    <view class="spotlight"></view>
+    <view class="stage-floor"></view>
+    
     <view class="character-box">
       <view class="layer base-body">
         <view class="placeholder-text" wx:if="{{!hasStarted}}">?</view>
       </view>
 
       <view class="layer paint-layer {{layers.dragonPaint ? 'show' : ''}}">
-        <view class="paint-pattern"></view> </view>
+        <view class="paint-pattern"></view> 
+      </view>
 
       <view class="layer head-layer {{layers.cowHead ? 'show' : ''}}">
-        <view class="headwear-shape"></view> </view>
+        <view class="headwear-shape"></view> 
+      </view>
 
       <view class="layer feather-layer {{layers.feather ? 'show' : ''}}">
-        <view class="feather-shape"></view> </view>
+        <view class="feather-shape"></view> 
+      </view>
 
       <view class="layer tool-layer {{layers.magicTool ? 'show' : ''}}">
-        <view class="tool-shape"></view> </view>
+        <view class="tool-shape"></view> 
+      </view>
       
       <view class="aura" wx:if="{{gameState === 'success'}}"></view>
     </view>
@@ -32,46 +48,57 @@
   </view>
 
   <view class="inventory-panel" wx:if="{{gameState === 'playing'}}">
-    <view 
-      wx:for="{{items}}" 
-      wx:key="id" 
-      class="item-card {{item.isEquipped ? 'equipped' : ''}}"
-      bindtap="onItemClick" 
-      data-id="{{item.id}}"
-    >
-      <view class="item-icon">{{item.icon}}</view>
-      <view class="item-info">
-        <text class="item-name">{{item.name}}</text>
-        <text class="item-desc">{{item.desc}}</text>
+    <view class="panel-title">法器库 / Inventory</view>
+    <view class="items-grid">
+      <view 
+        wx:for="{{items}}" 
+        wx:key="id" 
+        class="item-card {{item.isEquipped ? 'equipped' : ''}}"
+        bindtap="onItemClick" 
+        data-id="{{item.id}}"
+      >
+        <view class="item-visual">
+          <view class="item-icon">{{item.icon}}</view>
+        </view>
+        <view class="item-info">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-desc">{{item.desc}}</text>
+        </view>
+        <view class="checkmark" wx:if="{{item.isEquipped}}">
+          <view class="check-circle">✔</view>
+        </view>
       </view>
-      <view class="checkmark" wx:if="{{item.isEquipped}}">✔</view>
     </view>
   </view>
 
   <view class="modal-overlay" wx:if="{{gameState !== 'playing'}}">
-    <view class="modal" wx:if="{{gameState === 'start'}}">
-      <view class="modal-title">恭请大哑巴</view>
-      <view class="modal-text">
-        彝族祭祀仪式即将开始。\n请按照传统习俗的正确顺序，为“大哑巴”穿戴法衣法器，切勿乱了规矩。
-      </view>
-      <button class="action-btn" bindtap="startGame">开始装扮</button>
-    </view>
+    <view class="modal {{gameState}}">
+      <view class="modal-header-deco"></view>
+      
+      <block wx:if="{{gameState === 'start'}}">
+        <view class="modal-title">恭请大哑巴</view>
+        <view class="modal-text">
+          彝族祭祀仪式即将开始。\n请按照传统习俗的正确顺序，为“大哑巴”穿戴法衣法器，切勿乱了规矩。
+        </view>
+        <button class="action-btn" bindtap="startGame">开始装扮</button>
+      </block>
 
-    <view class="modal success" wx:elif="{{gameState === 'success'}}">
-      <view class="modal-title">大哑巴准备就绪！</view>
-      <view class="modal-text">
-        <text style="font-weight:bold; color:#ffeb3b;">仪式正式开始</text>
-        \n\n大哑巴身绘龙纹祈雨，头戴牛角象征力量，手持法器驱邪。在火把节中，他将带领人们祈求来年风调雨顺。
-      </view>
-      <button class="action-btn" bindtap="startGame">再来一次</button>
-    </view>
+      <block wx:elif="{{gameState === 'success'}}">
+        <view class="modal-title">大哑巴准备就绪！</view>
+        <view class="modal-text">
+          <text class="highlight-text">仪式正式开始</text>
+          \n\n大哑巴身绘龙纹祈雨，头戴牛角象征力量，手持法器驱邪。在火把节中，他将带领人们祈求来年风调雨顺。
+        </view>
+        <button class="action-btn" bindtap="startGame">再来一次</button>
+      </block>
 
-    <view class="modal fail" wx:elif="{{gameState === 'fail'}}">
-      <view class="modal-title">仪式准备未完成</view>
-      <view class="modal-text">
-        时间耗尽或顺序未完成。\n祭祀是庄重之事，请静下心来再试一次。
-      </view>
-      <button class="action-btn" bindtap="startGame">重新开始</button>
+      <block wx:elif="{{gameState === 'fail'}}">
+        <view class="modal-title">仪式准备未完成</view>
+        <view class="modal-text">
+          时间耗尽或顺序未完成。\n祭祀是庄重之事，请静下心来再试一次。
+        </view>
+        <button class="action-btn" bindtap="startGame">重新开始</button>
+      </block>
     </view>
   </view>
 </view>
