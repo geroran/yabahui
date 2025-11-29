@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="header">
+    <text class="title">哑巴会 · 小游戏合集</text>
+    <text class="subtitle">选择一个关卡开始体验彝族文化</text>
+  </view>
+
+  <view class="game-list">
+    <!-- 关卡一：祭拜神树 -->
+    <view class="game-card" bindtap="goToGame1">
+      <view class="game-title-row">
+        <text class="game-title">关卡一 · 祭拜神树</text>
+        <text class="game-tag">记忆 + 点击</text>
+      </view>
+      <text class="game-desc">
+        记住祭祀顺序，按步骤点亮香火、酒水、贡品和经幡，完成对神树的祭拜仪式。
+      </text>
+    </view>
+
+    <!-- 关卡二：恭请大哑巴 -->
+    <view class="game-card" bindtap="goToGame2">
+      <view class="game-title-row">
+        <text class="game-title">关卡二 · 恭请大哑巴</text>
+        <text class="game-tag game-tag-secondary">装扮 + 顺序</text>
+      </view>
+      <text class="game-desc">
+        按正确顺序为大哑巴绘制龙纹、佩戴牛皮头饰与野鸡羽毛，手持法器，准备开启仪式。
+      </text>
+    </view>
+  </view>
+</view>

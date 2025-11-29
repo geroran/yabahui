@@ -1,0 +1,291 @@
+/* 全局：彝族漆器黑底风格 */
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #2e2c2c;
+  color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+/* 顶部 */
+.header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: #000;
+  border-bottom: 2px solid #d32f2f;
+}
+.title {
+  font-size: 16px;
+  color: #fdd835;
+  font-weight: bold;
+}
+.timer-box {
+  font-size: 14px;
+  border: 1px solid #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.timer-box.urgent {
+  color: #ff5252;
+  border-color: #ff5252;
+}
+
+/* 舞台区 */
+.stage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #333 0%, #111 100%);
+}
+
+/* 角色容器 - 核心层叠逻辑 */
+.character-box {
+  width: 200px;
+  height: 300px;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+/* 通用图层样式 */
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s ease;
+  pointer-events: none; /* 让图层不阻挡下方点击，虽然后面没用到点击角色 */
+}
+
+/* 0. 基础素体 (黑色剪影) */
+.base-body {
+  background-color: #000;
+  mask-image: linear-gradient(to bottom, black, black); 
+  /* 这里简单用圆角矩形模拟身体 */
+  border-radius: 50px 50px 0 0;
+  border: 2px solid #444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.placeholder-text {
+  font-size: 40px;
+  color: #333;
+}
+
+/* 1. 龙纹 (半透明纹理) */
+.paint-layer {
+  opacity: 0;
+}
+.paint-layer.show {
+  opacity: 1;
+}
+.paint-pattern {
+  width: 100%;
+  height: 100%;
+  /* 模拟身体上的条纹 */
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(253, 216, 53, 0.3) 10px, rgba(253, 216, 53, 0.3) 20px);
+  border-radius: 50px 50px 0 0;
+}
+
+/* 2. 牛角头饰 */
+.head-layer {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.head-layer.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.headwear-shape {
+  width: 140%;
+  height: 60px;
+  background: #d32f2f; /* 红色头饰 */
+  margin-left: -20%;
+  border-radius: 0 0 50px 50px;
+  position: relative;
+  top: -20px;
+}
+.headwear-shape::before, .headwear-shape::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  width: 20px;
+  height: 50px;
+  background: #eee; /* 牛角 */
+}
+.headwear-shape::before { left: 10px; transform: rotate(-30deg); }
+.headwear-shape::after { right: 10px; transform: rotate(30deg); }
+
+/* 3. 羽毛 */
+.feather-layer {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.feather-layer.show {
+  opacity: 1;
+  transform: scale(1);
+}
+.feather-shape {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  width: 10px;
+  height: 60px;
+  background: linear-gradient(to top, #ff9800, #4caf50);
+  transform: translateX(-50%);
+  box-shadow: -15px 10px 0 #2196f3, 15px 10px 0 #f44336; /* 多色羽毛模拟 */
+}
+
+/* 4. 法器 */
+.tool-layer {
+  opacity: 0;
+}
+.tool-layer.show {
+  opacity: 1;
+}
+.tool-shape {
+  position: absolute;
+  bottom: 40px;
+  right: -20px;
+  width: 20px;
+  height: 100px;
+  background: #8d6e63; /* 木棒 */
+  transform: rotate(-15deg);
+}
+.tool-shape::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 40px;
+  height: 40px;
+  background: #d32f2f;
+  border-radius: 50%;
+}
+
+/* 成功光环 */
+.aura {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 50px 20px rgba(253, 216, 53, 0.5);
+  border-radius: 50px 50px 0 0;
+  animation: pulse 1.5s infinite;
+}
+
+/* 提示文字 */
+.toast-msg {
+  height: 30px;
+  line-height: 30px;
+  color: #ff5252;
+  font-weight: bold;
+  background: rgba(0,0,0,0.6);
+  padding: 0 10px;
+  border-radius: 4px;
+}
+.toast-msg.shake {
+  animation: shake 0.5s;
+}
+
+/* 道具栏 */
+.inventory-panel {
+  height: 220px;
+  background: #222;
+  border-top: 4px solid #d32f2f;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.item-card {
+  background: #333;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.item-card.equipped {
+  opacity: 0.5;
+  background: #111;
+  border-color: #555;
+}
+
+.item-icon {
+  font-size: 28px;
+  width: 40px;
+  text-align: center;
+}
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.item-name {
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+}
+.item-desc {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 4px;
+}
+.checkmark {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* 弹窗 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal {
+  width: 80%;
+  background: #000000;
+  border: 2px solid #fdd835;
+  padding: 24px;
+  border-radius: 10px;
+  text-align: center;
+}
+.modal.success { border-color: #4caf50; }
+.modal.fail { border-color: #f44336; }
+
+.modal-title { font-size: 22px; color: #fdd835; margin-bottom: 15px; }
+.modal-text { color: #ddd; font-size: 14px; line-height: 1.6; margin-bottom: 25px; white-space: pre-wrap; }
+.action-btn { background: #d32f2f; color: #fff; border-radius: 20px; }
+
+/* 动画关键帧 */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-10px); }
+  80% { transform: translateX(10px); }
+  100% { transform: translateX(0); }
+}
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}

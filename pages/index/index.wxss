@@ -1,0 +1,71 @@
+.container {
+  min-height: 100vh;
+  padding: 40rpx 32rpx 60rpx;
+  box-sizing: border-box;
+  background: #f5f5f7;
+}
+
+.header {
+  margin-bottom: 40rpx;
+}
+
+.title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.subtitle {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.game-card {
+  padding: 28rpx 24rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.game-card:active {
+  opacity: 0.8;
+}
+
+.game-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.game-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #222;
+}
+
+.game-tag {
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  color: #fff;
+  background: #ff7a45;
+}
+
+.game-tag-secondary {
+  background: #1890ff;
+}
+
+.game-desc {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}

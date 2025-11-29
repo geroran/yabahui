@@ -1,0 +1,48 @@
+<view class="container">
+  <view class="header">
+    <view class="title">关卡：祭拜神树</view>
+    <view class="timer {{timeLeft <= 10 ? 'urgent' : ''}}">倒计时: {{timeLeft}}s</view>
+  </view>
+
+  <view class="scene-area">
+    <view class="god-tree">
+      <view class="tree-crown"></view>
+      <view class="tree-trunk"></view>
+    </view>
+    <view class="village-bg"></view>
+    <view class="instruction-text">{{instructionText}}</view>
+  </view>
+
+  <view class="action-panel">
+    <view 
+      wx:for="{{steps}}" 
+      wx:key="id" 
+      class="action-item {{currentHighlightId === item.id ? 'highlight' : ''}} {{item.status}}"
+      bindtap="onActionClick" 
+      data-id="{{item.id}}"
+    >
+      <view class="icon">{{item.icon}}</view>
+      <view class="name">{{item.name}}</view>
+    </view>
+  </view>
+
+  <view class="overlay" wx:if="{{gameState === 'idle' || gameState === 'success' || gameState === 'fail'}}">
+    <view class="modal">
+      <view class="modal-title" wx:if="{{gameState === 'idle'}}">祭祀仪式</view>
+      <view class="modal-title" wx:elif="{{gameState === 'success'}}">祭拜成功</view>
+      <view class="modal-title" wx:else>仪式未成</view>
+
+      <view class="modal-content">
+        <text wx:if="{{gameState === 'idle'}}">请仔细观察神树指引的顺序，\n按顺序点击完成祭祀，祈求平安。</text>
+        <view wx:elif="{{gameState === 'success'}}">
+          <text class="culture-text">神树见证了你的虔诚。\n\n【文化小贴士】\n彝族人民视树为神灵的居所，祭祀神树不仅是祈福，更是表达对大自然养育之恩的敬畏与感谢。</text>
+        </view>
+        <text wx:else>顺序有误或时间已到，\n请平复心境，重新来过。</text>
+      </view>
+
+      <button class="start-btn" bindtap="startGame">
+        {{gameState === 'idle' ? '开始祭拜' : '再试一次'}}
+      </button>
+    </view>
+  </view>
+</view>
