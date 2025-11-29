@@ -15,11 +15,20 @@
   justify-content: space-between;
   padding: 20px;
   align-items: center;
+  gap: 12px;
 }
 .title {
   font-size: 18px;
   font-weight: bold;
   color: #fdd835; /* 彝族黄 */
+}
+.back-btn {
+  padding: 6px 14px;
+  border: 1px solid #fdd835;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #fdd835;
+  background: rgba(0, 0, 0, 0.2);
 }
 .timer {
   font-size: 20px;

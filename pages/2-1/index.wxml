@@ -1,5 +1,6 @@
 <view class="container">
   <view class="header">
+    <view class="back-btn" bindtap="goBack">返回</view>
     <view class="title">关卡：祭拜神树</view>
     <view class="timer {{timeLeft <= 10 ? 'urgent' : ''}}">倒计时: {{timeLeft}}s</view>
   </view>

@@ -18,11 +18,20 @@
   padding: 0 20px;
   background: #000;
   border-bottom: 2px solid #d32f2f;
+  gap: 12px;
 }
 .title {
   font-size: 16px;
   color: #fdd835;
   font-weight: bold;
+}
+.back-btn {
+  padding: 4px 14px;
+  border: 1px solid #fdd835;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #fdd835;
+  background: rgba(0, 0, 0, 0.2);
 }
 .timer-box {
   font-size: 14px;
