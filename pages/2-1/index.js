@@ -3,22 +3,32 @@ Page({
     // 游戏状态: idle(闲置), showing(演示中), playing(玩家操作中), success(成功), fail(失败)
     gameState: 'idle',
     timeLeft: 60,
-    instructionText: '等待仪式开始...',
-    
-    // 祭祀步骤数据 (固定顺序)
-    // status: '' | 'completed' | 'error'
+    instructionText: '神树守护着七宣村。请按祭祀顺序，完成对神树的敬拜。',
+
+    // 祭祀步骤数据
     steps: [
-      { id: 1, name: '点燃香火', icon: '🔥', status: '' },
-      { id: 2, name: '敬献酒水', icon: '🍶', status: '' },
-      { id: 3, name: '摆放贡品', icon: '🍎', status: '' },
-      { id: 4, name: '悬挂经幡', icon: '🚩', status: '' },
-      { id: 5, name: '叩拜行礼', icon: '🙇', status: '' }
+      { id: 1, name: '点燃香火', icon: './images/点燃香火.webp', status: '' },
+      { id: 2, name: '敬献酒水', icon: './images/敬献酒水.webp', status: '' },
+      { id: 3, name: '摆放贡品', icon: './images/摆放贡品.webp', status: '' },
+      { id: 4, name: '悬挂经幡', icon: './images/悬挂经幡.webp', status: '' },
+      { id: 5, name: '叩拜行礼', icon: './images/叩拜行礼.webp', status: '' }
     ],
 
-    // 当前高亮的ID（用于演示）
+    // 步骤对应的文案
+    stepTexts: {
+      1: '香火已点亮，心愿随烟升腾。',
+      2: '举樽敬神，分享敬意与祝福。',
+      3: '贡品已呈上，感念自然与祖灵。',
+      4: '经幡随风起，愿祈福随风远行。',
+      5: '叩拜已成，敬意传达于天地。'
+    },
+
+    // 当前高亮的ID（用于演示和操作反馈）
     currentHighlightId: null,
-    // 玩家当前应该点击第几步（从0开始计数，对应steps数组下标）
-    playerTargetIndex: 0
+    // 玩家当前应该点击第几步（从0开始计数）
+    playerTargetIndex: 0,
+    // 演示模式下的临时索引，用于控制背景图显示
+    demoIndex: 0
   },
 
   timerInterval: null,
@@ -34,10 +44,10 @@ Page({
   // 开始游戏
   startGame() {
     this.resetGameData();
-    
+
     this.setData({
       gameState: 'showing',
-      instructionText: '请记住祭祀顺序...'
+      instructionText: '请仔细观察祭祀顺序...'
     });
 
     // 延迟一点时间让UI渲染完，开始演示顺序
@@ -54,7 +64,9 @@ Page({
       steps: resetSteps,
       timeLeft: 60,
       playerTargetIndex: 0,
-      currentHighlightId: null
+      currentHighlightId: null,
+      demoIndex: 0,
+      instructionText: '神树守护着七宣村。请按祭祀顺序，完成对神树的敬拜。'
     });
   },
 
@@ -68,24 +80,26 @@ Page({
         // 演示结束，进入玩家操作阶段
         this.setData({
           currentHighlightId: null,
+          demoIndex: 0,
           gameState: 'playing',
-          instructionText: '请按刚才的顺序点击下方道具'
+          instructionText: '请按刚才的顺序点击顶部道具'
         });
         this.startTimer();
         return;
       }
 
-      // 高亮当前步骤
+      // 高亮当前步骤，并切换背景图演示
       this.setData({
         currentHighlightId: steps[index].id,
+        demoIndex: index + 1,
         instructionText: `步骤 ${index + 1}: ${steps[index].name}`
       });
 
-      // 1秒后播放下一个
+      // 1.5秒后播放下一个
       setTimeout(() => {
         index++;
         playNext();
-      }, 1000); // 调整此数值可改变演示速度
+      }, 1500);
     };
 
     playNext();
@@ -119,26 +133,27 @@ Page({
     const targetIndex = this.data.playerTargetIndex;
     const targetStep = this.data.steps[targetIndex];
 
-    // 查找被点击项在数组中的索引，用于更新UI
+    // 查找被点击项在数组中的索引
     const clickedItemIndex = this.data.steps.findIndex(item => item.id === clickedId);
-    
+
     // 如果已经点击过的（completed），忽略
     if (this.data.steps[clickedItemIndex].status === 'completed') return;
 
     // 校验逻辑
     if (clickedId === targetStep.id) {
       // --- 正确 ---
-      this.correctFeedback(clickedItemIndex);
-      
+      this.correctFeedback(clickedItemIndex, clickedId);
+
       const nextIndex = targetIndex + 1;
-      
+
       // 判断是否全部完成
       if (nextIndex >= this.data.steps.length) {
-        this.handleSuccess();
+        setTimeout(() => {
+          this.handleSuccess();
+        }, 1000);
       } else {
         this.setData({
-          playerTargetIndex: nextIndex,
-          instructionText: '正确，继续下一步...'
+          playerTargetIndex: nextIndex
         });
       }
 
@@ -149,30 +164,28 @@ Page({
   },
 
   // 正确反馈
-  correctFeedback(index) {
+  correctFeedback(index, id) {
     const key = `steps[${index}].status`;
+    const successText = this.data.stepTexts[id] || '操作成功';
+
     this.setData({
-      [key]: 'completed'
+      [key]: 'completed',
+      instructionText: successText
     });
-    // 可以加轻微震动
     wx.vibrateShort({ type: 'light' });
   },
 
   // 错误反馈
   wrongFeedback(index) {
     const key = `steps[${index}].status`;
-    
-    // 1. 设置错误状态触发动画
+
     this.setData({
       [key]: 'error',
-      instructionText: '顺序有误，再想一想！'
+      instructionText: '顺序有误，请再回想一下神树的指引。'
     });
-    
-    // 长震动提示错误
+
     wx.vibrateLong();
 
-    // 2. 短暂延迟后移除错误状态，让玩家可以重试（或者保持红色直到重置）
-    // 这里设计为闪烁一下恢复原样
     setTimeout(() => {
       this.setData({
         [key]: ''
@@ -185,7 +198,7 @@ Page({
     this.stopTimer();
     this.setData({
       gameState: 'success',
-      instructionText: '祭祀完成'
+      instructionText: '祭礼完成。神树聆听了你的祈愿，祝福将随山风而来。'
     });
   },
 

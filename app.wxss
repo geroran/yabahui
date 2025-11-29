@@ -3,7 +3,7 @@ page {
   min-height: 100vh;
   box-sizing: border-box;
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  padding: 24rpx;
+  padding: 0rpx;
   padding-top: calc(24rpx + constant(safe-area-inset-top));
   padding-top: calc(24rpx + env(safe-area-inset-top));
 }
@@ -13,7 +13,7 @@ page {
   width: 100%;
   max-width: 750rpx;
   margin: 0 auto;
-  padding: 0 20rpx;
+  padding: 20rpx 20rpx;
   box-sizing: border-box;
 }
 

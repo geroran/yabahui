@@ -1,66 +1,83 @@
 <view class="container">
-  <!-- 背景装饰 -->
-  <view class="stars">
-    <view class="star star-1"></view>
-    <view class="star star-2"></view>
-    <view class="star star-3"></view>
-    <view class="star star-4"></view>
-    <view class="star star-5"></view>
-    <view class="star star-6"></view>
-    <view class="star star-7"></view>
-    <view class="star star-8"></view>
-  </view>
-  <view class="fog"></view>
-
-  <view class="header">
-    <view class="back-btn" bindtap="goBack">
-      <text class="back-arrow">❮</text> 返回
-    </view>
-    <view class="title-box">
-      <text class="title">祭拜神树</text>
-      <text class="subtitle">Sacrifice to the God Tree</text>
-    </view>
-    <view class="timer-container {{timeLeft <= 10 ? 'urgent' : ''}}">
-      <view class="timer-circle">
-        <text class="timer-num">{{timeLeft}}</text>
-      </view>
-    </view>
-  </view>
-
-  <view class="scene-area">
-    <view class="god-tree-container">
-      <view class="god-tree">
-        <view class="tree-aura"></view>
-        <view class="tree-crown">
-          <view class="leaf-cluster"></view>
-          <view class="leaf-cluster right"></view>
-        </view>
-        <view class="tree-trunk"></view>
-      </view>
-      <view class="altar-stone"></view>
-    </view>
+  <!-- 背景图片组：实现渐变切换 -->
+  <view class="bg-group">
+    <!-- 初始背景 (pic1) 始终显示在最底层 -->
+    <image class="bg-img" src="./images/pic1.webp" mode="aspectFill"></image>
     
+    <!-- 步骤1完成后的背景 (pic2) -->
+    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 1) || (gameState !== 'showing' && playerTargetIndex >= 1) ? 'visible' : ''}}" src="./images/pic2.webp" mode="aspectFill"></image>
+    
+    <!-- 步骤2完成后的背景 (pic3) -->
+    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 2) || (gameState !== 'showing' && playerTargetIndex >= 2) ? 'visible' : ''}}" src="./images/pic3.webp" mode="aspectFill"></image>
+    
+    <!-- 步骤3完成后的背景 (pic4) -->
+    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 3) || (gameState !== 'showing' && playerTargetIndex >= 3) ? 'visible' : ''}}" src="./images/pic4.webp" mode="aspectFill"></image>
+    
+    <!-- 步骤4完成后的背景 (pic5) -->
+    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 4) || (gameState !== 'showing' && playerTargetIndex >= 4) ? 'visible' : ''}}" src="./images/pic5.webp" mode="aspectFill"></image>
+    
+    <!-- 步骤5完成后的背景 (pic6 - 最终成功状态) -->
+    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 5) || gameState === 'success' ? 'visible' : ''}}" src="./images/pic6.webp" mode="aspectFill"></image>
+  </view>
+
+  <!-- 顶部操作栏 (横向循环滚动) -->
+  <view class="top-action-bar">
+    <view class="action-scroll-wrapper">
+      <view class="action-list loop-scroll">
+        <!-- 原始列表 -->
+        <view 
+          wx:for="{{steps}}" 
+          wx:key="id" 
+          class="action-btn-item {{currentHighlightId === item.id ? 'highlight' : ''}} {{item.status}}"
+          bindtap="onActionClick" 
+          data-id="{{item.id}}"
+        >
+          <image class="action-icon" src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <!-- 复制一份用于无缝循环 -->
+        <view 
+          wx:for="{{steps}}" 
+          wx:key="id" 
+          class="action-btn-item {{currentHighlightId === item.id ? 'highlight' : ''}} {{item.status}}"
+          bindtap="onActionClick" 
+          data-id="{{item.id}}"
+        >
+          <image class="action-icon" src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <!-- 再复制一份确保循环流畅 -->
+        <view 
+          wx:for="{{steps}}" 
+          wx:key="id" 
+          class="action-btn-item {{currentHighlightId === item.id ? 'highlight' : ''}} {{item.status}}"
+          bindtap="onActionClick" 
+          data-id="{{item.id}}"
+        >
+          <image class="action-icon" src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 返回按钮 (左上角) -->
+  <view class="back-btn" bindtap="goBack">
+    <text class="back-arrow">❮</text>
+  </view>
+
+  <!-- 计时器 (右上角) -->
+  <view class="timer-container {{timeLeft <= 10 ? 'urgent' : ''}}">
+    <view class="timer-circle">
+      <text class="timer-num">{{timeLeft}}</text>
+    </view>
+  </view>
+
+  <!-- 指引文字 (底部) -->
+  <view class="instruction-area">
     <view class="instruction-box">
       <text class="instruction-text">{{instructionText}}</text>
     </view>
   </view>
 
-  <view class="action-panel">
-    <view class="panel-bg"></view>
-    <view 
-      wx:for="{{steps}}" 
-      wx:key="id" 
-      class="action-item {{currentHighlightId === item.id ? 'highlight' : ''}} {{item.status}}"
-      bindtap="onActionClick" 
-      data-id="{{item.id}}"
-    >
-      <view class="talisman-paper">
-        <view class="icon">{{item.icon}}</view>
-        <view class="name">{{item.name}}</view>
-      </view>
-    </view>
-  </view>
-
+  <!-- 弹窗 (保持不变) -->
   <view class="overlay" wx:if="{{gameState === 'idle' || gameState === 'success' || gameState === 'fail'}}">
     <view class="modal {{gameState}}">
       <view class="modal-decoration top"></view>
@@ -69,7 +86,7 @@
       <view class="modal-title" wx:else>仪式未成</view>
 
       <view class="modal-content">
-        <text wx:if="{{gameState === 'idle'}}">请仔细观察神树指引的顺序，\n按顺序点击完成祭祀，祈求平安。</text>
+        <text wx:if="{{gameState === 'idle'}}">请仔细观察神树指引的顺序，\n按顺序点击顶部道具完成祭祀。</text>
         <view wx:elif="{{gameState === 'success'}}">
           <text class="culture-text">神树见证了你的虔诚。\n\n【文化小贴士】\n彝族人民视树为神灵的居所，祭祀神树不仅是祈福，更是表达对大自然养育之恩的敬畏与感谢。</text>
         </view>
