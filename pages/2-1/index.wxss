@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: linear-gradient(to bottom, #0f172a, #1e293b);
+  background-image: linear-gradient(to bottom, #0f172a, #1e293b);
   color: #e2e8f0;
   font-family: "PingFang SC", "Helvetica Neue", sans-serif;
   overflow: hidden;
@@ -22,20 +22,26 @@
   position: absolute;
   width: 2px;
   height: 2px;
-  background: white;
+  background-color: white;
   border-radius: 50%;
   opacity: 0.5;
   animation: twinkle 3s infinite ease-in-out;
 }
-.star:nth-child(odd) { animation-duration: 4s; }
-.star:nth-child(even) { animation-duration: 2s; }
+.star-1 { top: 10%; left: 20%; animation-duration: 4s; }
+.star-2 { top: 30%; left: 80%; animation-duration: 2s; }
+.star-3 { top: 50%; left: 40%; animation-duration: 3s; }
+.star-4 { top: 15%; left: 60%; animation-duration: 5s; }
+.star-5 { top: 40%; left: 10%; animation-duration: 2.5s; }
+.star-6 { top: 70%; left: 90%; animation-duration: 3.5s; }
+.star-7 { top: 20%; left: 30%; animation-duration: 4.5s; }
+.star-8 { top: 60%; left: 70%; animation-duration: 2.8s; }
 
 .fog {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 40%;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+  background-image: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
   pointer-events: none;
   z-index: 1;
 }
@@ -43,6 +49,7 @@
 /* 顶部导航 */
 .header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   padding: 40px 20px 10px; /* 适配刘海屏 */
   align-items: center;
@@ -51,28 +58,29 @@
 
 .back-btn {
   display: flex;
+  flex-direction: row;
   align-items: center;
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   font-size: 14px;
   color: #cbd5e1;
-  backdrop-filter: blur(4px);
 }
 .back-arrow { margin-right: 4px; font-size: 12px; }
 
 .title-box {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .title {
-  display: block;
   font-size: 18px;
   font-weight: 600;
   color: #fdd835; /* 彝族黄 */
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .subtitle {
-  display: block;
   font-size: 10px;
   color: #94a3b8;
   letter-spacing: 1px;
@@ -90,7 +98,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.3);
+  background-color: rgba(0,0,0,0.3);
   box-shadow: 0 0 10px rgba(253, 216, 53, 0.3);
 }
 .timer-num {
@@ -118,6 +126,9 @@
 .god-tree-container {
   position: relative;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .god-tree {
@@ -137,7 +148,7 @@
   transform: translateX(-50%);
   width: 180px;
   height: 180px;
-  background: radial-gradient(circle, rgba(76, 175, 80, 0.2), transparent 70%);
+  background-image: radial-gradient(circle, rgba(76, 175, 80, 0.2), transparent 70%);
   animation: breathe 4s infinite ease-in-out;
   pointer-events: none;
 }
@@ -146,7 +157,7 @@
   position: relative;
   width: 140px;
   height: 120px;
-  background: #1b5e20;
+  background-color: #1b5e20;
   border-radius: 60% 60% 50% 50%;
   box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3);
   z-index: 2;
@@ -155,7 +166,7 @@
   position: absolute;
   width: 60px;
   height: 60px;
-  background: #2e7d32;
+  background-color: #2e7d32;
   border-radius: 50%;
   top: 10px;
   left: -10px;
@@ -165,13 +176,13 @@
   left: auto;
   right: -10px;
   top: 20px;
-  background: #388e3c;
+  background-color: #388e3c;
 }
 
 .tree-trunk {
   width: 40px;
   height: 80px;
-  background: linear-gradient(to right, #3e2723, #5d4037, #3e2723);
+  background-image: linear-gradient(to right, #3e2723, #5d4037, #3e2723);
   margin-top: -20px;
   border-radius: 4px;
   position: relative;
@@ -194,7 +205,7 @@
 .altar-stone {
   width: 180px;
   height: 20px;
-  background: #444;
+  background-color: #444;
   border-radius: 50%;
   margin-top: -10px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.5);
@@ -203,11 +214,10 @@
 }
 
 .instruction-box {
-  background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   padding: 8px 20px;
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(4px);
 }
 .instruction-text {
   font-size: 14px;
@@ -219,10 +229,11 @@
 .action-panel {
   position: relative;
   padding: 30px 20px 50px;
-  background: #262626;
+  background-color: #262626;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
@@ -238,21 +249,21 @@
   transform: translateX(-50%);
   width: 40px;
   height: 4px;
-  background: #444;
+  background-color: #444;
   border-radius: 2px;
 }
 
 .action-item {
   width: 80px;
   height: 100px;
-  perspective: 1000px;
+  /* perspective: 1000px; Removed unsupported property */
   transition: transform 0.2s;
 }
 
 .talisman-paper {
   width: 100%;
   height: 100%;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -268,7 +279,7 @@
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px);
 }
 /* 顶部红色印记 */
 .talisman-paper::after {
@@ -277,7 +288,7 @@
   top: 5px;
   width: 20px;
   height: 20px;
-  background: rgba(211, 47, 47, 0.2);
+  background-color: rgba(211, 47, 47, 0.2);
   border-radius: 50%;
 }
 
@@ -291,7 +302,7 @@
   color: #333;
   font-weight: bold;
   z-index: 1;
-  background: rgba(255,255,255,0.8);
+  background-color: rgba(255,255,255,0.8);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -303,11 +314,11 @@
 .action-item.highlight .talisman-paper {
   box-shadow: 0 0 20px #fdd835;
   border-color: #fdd835;
-  background: #fffde7;
+  background-color: #fffde7;
 }
 
 .action-item.completed .talisman-paper {
-  background: #e8f5e9;
+  background-color: #e8f5e9;
   border-color: #4caf50;
   opacity: 0.8;
 }
@@ -320,7 +331,7 @@
   animation: shake 0.4s;
 }
 .action-item.error .talisman-paper {
-  background: #ffebee;
+  background-color: #ffebee;
   border-color: #ef5350;
 }
 
@@ -328,8 +339,8 @@
 .overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.85);
+  /* backdrop-filter: blur(5px); Removed unsupported property */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -338,7 +349,7 @@
 
 .modal {
   width: 80%;
-  background: #1c1917;
+  background-color: #1c1917;
   border: 1px solid #444;
   border-radius: 16px;
   padding: 30px 20px;
@@ -371,12 +382,12 @@
   display: block;
   margin-top: 10px;
   padding: 10px;
-  background: rgba(253, 216, 53, 0.1);
+  background-color: rgba(253, 216, 53, 0.1);
   border-radius: 8px;
 }
 
 .start-btn {
-  background: linear-gradient(to right, #b91c1c, #d32f2f);
+  background-image: linear-gradient(to right, #b91c1c, #d32f2f);
   color: white;
   border-radius: 25px;
   font-weight: bold;

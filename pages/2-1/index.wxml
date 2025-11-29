@@ -1,7 +1,14 @@
 <view class="container">
   <!-- 背景装饰 -->
   <view class="stars">
-    <view class="star" wx:for="{{[1,2,3,4,5,6,7,8,9,10]}}" wx:key="*this" style="top: {{item*10}}%; left: {{item*8}}%"></view>
+    <view class="star star-1"></view>
+    <view class="star star-2"></view>
+    <view class="star star-3"></view>
+    <view class="star star-4"></view>
+    <view class="star star-5"></view>
+    <view class="star star-6"></view>
+    <view class="star star-7"></view>
+    <view class="star star-8"></view>
   </view>
   <view class="fog"></view>
 
