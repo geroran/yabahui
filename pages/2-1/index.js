@@ -27,14 +27,10 @@ Page({
     currentHighlightId: null,
     // 玩家当前应该点击第几步（从0开始计数）
     playerTargetIndex: 0,
-    // 演示模式下的临时索引，用于控制背景图显示
-    demoIndex: 0
-  },
-
-  timerInterval: null,
-
-  onLoad() {
-    // 初始化
+    // 演示模式下的临时索引，用于控制背景图演示
+    demoIndex: 0,
+    // 氛围滤镜类名: 'warm', 'holy', 'dark', ''
+    moodClass: ''
   },
 
   onUnload() {
@@ -65,7 +61,9 @@ Page({
       timeLeft: 60,
       playerTargetIndex: 0,
       currentHighlightId: null,
+      currentHighlightId: null,
       demoIndex: 0,
+      moodClass: '',
       instructionText: '神树守护着七宣村。请按祭祀顺序，完成对神树的敬拜。'
     });
   },
@@ -92,7 +90,8 @@ Page({
       this.setData({
         currentHighlightId: steps[index].id,
         demoIndex: index + 1,
-        instructionText: `步骤 ${index + 1}: ${steps[index].name}`
+        instructionText: `步骤 ${index + 1}: ${steps[index].name}`,
+        moodClass: index === 0 ? 'warm' : (index === 4 ? 'holy' : '')
       });
 
       // 1.5秒后播放下一个
@@ -170,7 +169,9 @@ Page({
 
     this.setData({
       [key]: 'completed',
-      instructionText: successText
+      [key]: 'completed',
+      instructionText: successText,
+      moodClass: id === 1 ? 'warm' : (id === 5 ? 'holy' : '')
     });
     wx.vibrateShort({ type: 'light' });
   },
@@ -198,6 +199,7 @@ Page({
     this.stopTimer();
     this.setData({
       gameState: 'success',
+      moodClass: 'holy',
       instructionText: '祭礼完成。神树聆听了你的祈愿，祝福将随山风而来。'
     });
   },
@@ -207,6 +209,8 @@ Page({
     this.stopTimer();
     this.setData({
       gameState: 'fail',
+      gameState: 'fail',
+      moodClass: 'dark',
       instructionText: '时间耗尽或仪式中断'
     });
   },

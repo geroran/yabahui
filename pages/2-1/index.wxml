@@ -20,6 +20,14 @@
     <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 5) || gameState === 'success' ? 'visible' : ''}}" src="./images/pic6.webp" mode="aspectFill"></image>
   </view>
 
+  <!-- 氛围滤镜层 -->
+  <view class="mood-overlay {{moodClass}}"></view>
+
+  <!-- 悬浮粒子系统 -->
+  <view class="particles-container">
+    <view class="particle" wx:for="{{20}}" wx:key="index"></view>
+  </view>
+
   <!-- 顶部操作栏 (横向循环滚动) -->
   <view class="top-action-bar">
     <view class="action-scroll-wrapper">
