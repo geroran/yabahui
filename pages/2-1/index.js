@@ -155,7 +155,12 @@ Page({
 
       // 判断是否全部完成
       if (nextIndex >= this.data.steps.length) {
-        // 延迟3秒显示成功弹窗
+        // 即使完成了也要更新索引，以便显示最后一张背景图
+        this.setData({
+          playerTargetIndex: nextIndex
+        });
+
+        // 延迟5秒显示成功弹窗
         setTimeout(() => {
           this.handleSuccess();
         }, 5000);

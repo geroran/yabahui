@@ -17,7 +17,7 @@
     <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 4) || (gameState !== 'showing' && playerTargetIndex >= 4) ? 'visible' : ''}}" src="./images/pic5.webp" mode="aspectFill"></image>
     
     <!-- 步骤5完成后的背景 (pic6 - 最终成功状态) -->
-    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 5) || gameState === 'success' ? 'visible' : ''}}" src="./images/pic6.webp" mode="aspectFill"></image>
+    <image class="bg-img {{ (gameState === 'showing' && demoIndex >= 5) || (gameState !== 'showing' && playerTargetIndex >= 5) || gameState === 'success' ? 'visible' : ''}}" src="./images/pic6.webp" mode="aspectFill"></image>
   </view>
 
   <!-- 氛围滤镜层 -->
