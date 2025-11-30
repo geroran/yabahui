@@ -25,7 +25,7 @@
 
   <!-- 悬浮粒子系统 -->
   <view class="particles-container">
-    <view class="particle" wx:for="{{20}}" wx:key="index"></view>
+    <view class="particle" wx:for="{{50}}" wx:key="index"></view>
   </view>
 
   <!-- 飞入动画的临时图标 -->
@@ -100,7 +100,7 @@
   <!-- 指引文字 (底部) -->
   <view class="instruction-area">
     <view class="instruction-box">
-      <text class="instruction-text">{{instructionText}}</text>
+      <text class="instruction-text {{textAnimClass}}">{{instructionText}}</text>
     </view>
   </view>
 

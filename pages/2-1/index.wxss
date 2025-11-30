@@ -45,7 +45,7 @@
   top: 90px;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 120px;
   z-index: 100;
   overflow: hidden; /* 隐藏溢出部分 */
 }
@@ -471,3 +471,48 @@
   background-color: rgba(239, 83, 80, 0.5);
   box-shadow: 0 0 15px rgba(239, 83, 80, 0.6);
 }
+
+/* --- 7. 指引文字淡入淡出 --- */
+.instruction-text {
+  transition: opacity 0.6s ease;
+}
+.instruction-text.fade-in {
+  animation: text-fade-in 0.9s ease forwards;
+}
+
+@keyframes text-fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 8. 顶部栏高亮脉冲 --- */
+@keyframes pulse-gold {
+  0% {
+    box-shadow: 0 0 0 0 rgba(253, 216, 53, 0.7);
+    transform: scale(1.15);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(253, 216, 53, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(253, 216, 53, 0);
+    transform: scale(1.15);
+  }
+}
+
+.action-btn-item.highlight {
+  animation: pulse-gold 1.5s infinite;
+  z-index: 10; /* 确保高亮时在最上层 */
+}
+
+/* --- 9. 更多粒子随机化 --- */
+/* 增加更多随机性以适应50个粒子 */
+.particle:nth-child(2n) { animation-duration: 7s; }
+.particle:nth-child(3n) { animation-duration: 11s; animation-delay: 1s; }
+.particle:nth-child(4n) { animation-duration: 13s; animation-delay: 3s; }
+.particle:nth-child(5n) { animation-duration: 9s; animation-delay: 2s; }
+.particle:nth-child(7n) { animation-duration: 15s; animation-delay: 0.5s; width: 2px; height: 2px; }
+.particle:nth-child(odd) { background: rgba(255, 255, 255, 0.4); }
+.particle:nth-child(even) { background: rgba(255, 215, 0, 0.4); } /* 金色粒子 */
+

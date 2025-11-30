@@ -32,7 +32,9 @@ Page({
     // 氛围滤镜类名: 'warm', 'holy', 'dark', ''
     moodClass: '',
     // 飞入动画对象: { src, x, y }
-    flyingItem: null
+    flyingItem: null,
+    // 指引文字动画类
+    textAnimClass: ''
   },
 
   onUnload() {
@@ -44,9 +46,9 @@ Page({
     this.resetGameData();
 
     this.setData({
-      gameState: 'showing',
-      instructionText: '请仔细观察祭祀顺序...'
+      gameState: 'showing'
     });
+    this.updateInstruction('请仔细观察祭祀顺序...');
 
     // 延迟一点时间让UI渲染完，开始演示顺序
     setTimeout(() => {
@@ -67,9 +69,9 @@ Page({
       demoIndex: 0,
       demoIndex: 0,
       moodClass: '',
-      flyingItem: null,
-      instructionText: '神树守护着七宣村。请按祭祀顺序，完成对神树的敬拜。'
+      flyingItem: null
     });
+    this.updateInstruction('神树守护着七宣村。请按祭祀顺序，完成对神树的敬拜。');
   },
 
   // 播放演示动画
@@ -83,9 +85,10 @@ Page({
         this.setData({
           currentHighlightId: null,
           demoIndex: 0,
-          gameState: 'playing',
-          instructionText: '请按刚才的顺序点击顶部道具'
+          demoIndex: 0,
+          gameState: 'playing'
         });
+        this.updateInstruction('请按刚才的顺序点击顶部道具');
         this.startTimer();
         return;
       }
@@ -94,9 +97,9 @@ Page({
       this.setData({
         currentHighlightId: steps[index].id,
         demoIndex: index + 1,
-        instructionText: `步骤 ${index + 1}: ${steps[index].name}`,
         moodClass: index === 0 ? 'warm' : (index === 4 ? 'holy' : '')
       });
+      this.updateInstruction(`步骤 ${index + 1}: ${steps[index].name}`);
 
       // 1.5秒后播放下一个
       setTimeout(() => {
@@ -184,9 +187,10 @@ Page({
     this.setData({
       [key]: 'completed',
       [key]: 'completed',
-      instructionText: successText,
+      [key]: 'completed',
       moodClass: id === 1 ? 'warm' : (id === 5 ? 'holy' : '')
     });
+    this.updateInstruction(successText);
     wx.vibrateShort({ type: 'light' });
   },
 
@@ -195,9 +199,9 @@ Page({
     const key = `steps[${index}].status`;
 
     this.setData({
-      [key]: 'error',
-      instructionText: '顺序有误，请再回想一下神树的指引。'
+      [key]: 'error'
     });
+    this.updateInstruction('顺序有误，请再回想一下神树的指引。');
 
     wx.vibrateLong();
 
@@ -213,9 +217,9 @@ Page({
     this.stopTimer();
     this.setData({
       gameState: 'success',
-      moodClass: 'holy',
-      instructionText: '祭礼完成。神树聆听了你的祈愿，祝福将随山风而来。'
+      moodClass: 'holy'
     });
+    this.updateInstruction('祭礼完成。神树聆听了你的祈愿，祝福将随山风而来。');
   },
 
   // 游戏失败
@@ -223,10 +227,9 @@ Page({
     this.stopTimer();
     this.setData({
       gameState: 'fail',
-      gameState: 'fail',
-      moodClass: 'dark',
-      instructionText: '时间耗尽或仪式中断'
+      moodClass: 'dark'
     });
+    this.updateInstruction('时间耗尽或仪式中断');
   },
 
   goBack() {
@@ -254,5 +257,18 @@ Page({
     setTimeout(() => {
       this.setData({ flyingItem: null });
     }, 1200);
+  },
+
+  // 更新指引文字带动画
+  updateInstruction(text) {
+    this.setData({
+      textAnimClass: '', // 重置动画
+      instructionText: text
+    }, () => {
+      // 下一帧添加动画类
+      setTimeout(() => {
+        this.setData({ textAnimClass: 'fade-in' });
+      }, 50);
+    });
   }
 });
