@@ -28,6 +28,15 @@
     <view class="particle" wx:for="{{20}}" wx:key="index"></view>
   </view>
 
+  <!-- 飞入动画的临时图标 -->
+  <image 
+    wx:if="{{flyingItem}}" 
+    class="flying-item" 
+    src="{{flyingItem.src}}" 
+    style="left: {{flyingItem.x}}px; top: {{flyingItem.y}}px;"
+    mode="aspectFit"
+  ></image>
+
   <!-- 顶部操作栏 (横向循环滚动) -->
   <view class="top-action-bar">
     <view class="action-scroll-wrapper">
@@ -41,6 +50,10 @@
           data-id="{{item.id}}"
         >
           <image class="action-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <!-- 粒子爆发 (仅在完成时显示) -->
+          <view class="burst-particles" wx:if="{{item.status === 'completed'}}">
+            <view class="burst-p" wx:for="{{8}}" wx:key="index"></view>
+          </view>
         </view>
         <!-- 复制一份用于无缝循环 -->
         <view 
@@ -51,6 +64,9 @@
           data-id="{{item.id}}"
         >
           <image class="action-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="burst-particles" wx:if="{{item.status === 'completed'}}">
+            <view class="burst-p" wx:for="{{8}}" wx:key="index"></view>
+          </view>
         </view>
         <!-- 再复制一份确保循环流畅 -->
         <view 
@@ -61,6 +77,9 @@
           data-id="{{item.id}}"
         >
           <image class="action-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="burst-particles" wx:if="{{item.status === 'completed'}}">
+            <view class="burst-p" wx:for="{{8}}" wx:key="index"></view>
+          </view>
         </view>
       </view>
     </view>

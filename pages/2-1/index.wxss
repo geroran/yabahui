@@ -389,8 +389,85 @@
 }
 
 /* 简单的随机化粒子 (手动写几个组) */
-.particle:nth-child(5n+1) { left: 10%; animation-duration: 8s; animation-delay: 0s; width: 3px; height: 3px; }
-.particle:nth-child(5n+2) { left: 30%; animation-duration: 12s; animation-delay: 2s; width: 5px; height: 5px; background: rgba(255, 215, 0, 0.5); }
-.particle:nth-child(5n+3) { left: 50%; animation-duration: 10s; animation-delay: 4s; width: 2px; height: 2px; }
-.particle:nth-child(5n+4) { left: 70%; animation-duration: 14s; animation-delay: 1s; width: 4px; height: 4px; background: rgba(255, 100, 0, 0.4); }
 .particle:nth-child(5n+5) { left: 90%; animation-duration: 9s; animation-delay: 3s; width: 3px; height: 3px; }
+
+/* --- 4. 飞入动画 --- */
+.flying-item {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  z-index: 150;
+  pointer-events: none;
+  animation: fly-to-center 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fly-to-center {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* --- 5. 粒子爆发 --- */
+.burst-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.burst-p {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #fdd835;
+  border-radius: 50%;
+  opacity: 0;
+  animation: burst-out 0.8s ease-out forwards;
+}
+
+/* 手动定义8个粒子的飞散方向 */
+.burst-p:nth-child(1) { --x: 60px; --y: 0px; animation-delay: 0s; }
+.burst-p:nth-child(2) { --x: 42px; --y: 42px; animation-delay: 0.05s; }
+.burst-p:nth-child(3) { --x: 0px; --y: 60px; animation-delay: 0s; }
+.burst-p:nth-child(4) { --x: -42px; --y: 42px; animation-delay: 0.05s; }
+.burst-p:nth-child(5) { --x: -60px; --y: 0px; animation-delay: 0s; }
+.burst-p:nth-child(6) { --x: -42px; --y: -42px; animation-delay: 0.05s; }
+.burst-p:nth-child(7) { --x: 0px; --y: -60px; animation-delay: 0s; }
+.burst-p:nth-child(8) { --x: 42px; --y: -42px; animation-delay: 0.05s; }
+
+@keyframes burst-out {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0);
+    opacity: 0;
+  }
+}
+
+/* --- 6. 增强错误震动 --- */
+@keyframes shake-hard {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-8px) rotate(-5deg); }
+  30% { transform: translateX(8px) rotate(5deg); }
+  50% { transform: translateX(-8px) rotate(-5deg); }
+  70% { transform: translateX(8px) rotate(5deg); }
+  90% { transform: translateX(-5px); }
+}
+
+.action-btn-item.error {
+  animation: shake-hard 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  border-color: #ef5350;
+  background-color: rgba(239, 83, 80, 0.5);
+  box-shadow: 0 0 15px rgba(239, 83, 80, 0.6);
+}

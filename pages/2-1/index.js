@@ -30,7 +30,9 @@ Page({
     // 演示模式下的临时索引，用于控制背景图演示
     demoIndex: 0,
     // 氛围滤镜类名: 'warm', 'holy', 'dark', ''
-    moodClass: ''
+    moodClass: '',
+    // 飞入动画对象: { src, x, y }
+    flyingItem: null
   },
 
   onUnload() {
@@ -63,7 +65,9 @@ Page({
       currentHighlightId: null,
       currentHighlightId: null,
       demoIndex: 0,
+      demoIndex: 0,
       moodClass: '',
+      flyingItem: null,
       instructionText: '神树守护着七宣村。请按祭祀顺序，完成对神树的敬拜。'
     });
   },
@@ -141,15 +145,20 @@ Page({
     // 校验逻辑
     if (clickedId === targetStep.id) {
       // --- 正确 ---
+      // 1. 触发飞入动画
+      this.triggerFlyAnimation(e, targetStep.icon);
+
+      // 2. 触发反馈
       this.correctFeedback(clickedItemIndex, clickedId);
 
       const nextIndex = targetIndex + 1;
 
       // 判断是否全部完成
       if (nextIndex >= this.data.steps.length) {
+        // 延迟3秒显示成功弹窗
         setTimeout(() => {
           this.handleSuccess();
-        }, 1000);
+        }, 5000);
       } else {
         this.setData({
           playerTargetIndex: nextIndex
@@ -222,5 +231,23 @@ Page({
     } else {
       wx.reLaunch({ url: '/pages/index/index' });
     }
+  },
+
+  // 触发飞入动画
+  triggerFlyAnimation(e, iconSrc) {
+    const { clientX, clientY } = e.changedTouches[0] || e.detail;
+
+    this.setData({
+      flyingItem: {
+        src: iconSrc,
+        x: clientX - 40, // 居中修正 (80/2)
+        y: clientY - 40
+      }
+    });
+
+    // 动画结束后清除
+    setTimeout(() => {
+      this.setData({ flyingItem: null });
+    }, 1200);
   }
 });
