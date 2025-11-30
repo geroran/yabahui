@@ -37,8 +37,8 @@
     mode="aspectFit"
   ></image>
 
-  <!-- 顶部操作栏 (横向滚动) -->
-  <view class="top-action-bar" wx:if="{{gameState === 'playing'}}">
+  <!-- 顶部操作栏 (横向滚动) - 只在 showing 和 playing 状态显示 -->
+  <view class="top-action-bar" wx:if="{{gameState === 'showing' || gameState === 'playing'}}">
     <view class="action-scroll-wrapper">
       <view class="action-list">
         <view 
@@ -63,22 +63,22 @@
     <text class="back-arrow">❮</text>
   </view>
 
-  <!-- 计时器 (右上角) -->
-  <view class="timer-container {{timeLeft <= 30 ? 'urgent' : ''}}">
+  <!-- 计时器 (右上角) - 只在 playing 状态显示 -->
+  <view class="timer-container {{timeLeft <= 30 ? 'urgent' : ''}}" wx:if="{{gameState === 'playing'}}">
     <view class="timer-circle">
       <text class="timer-num">{{timeLeft}}</text>
     </view>
   </view>
 
-  <!-- 指引文字 (底部) -->
-  <view class="instruction-area">
+  <!-- 指引文字 (底部) - 只在 showing 和 playing 状态显示 -->
+  <view class="instruction-area" wx:if="{{gameState === 'showing' || gameState === 'playing'}}">
     <view class="instruction-box">
       <text class="instruction-text">{{instructionText}}</text>
     </view>
   </view>
 
-  <!-- 弹窗 -->
-  <view class="overlay" wx:if="{{gameState !== 'playing'}}">
+  <!-- 弹窗 - 只在 start, success, fail 状态显示 -->
+  <view class="overlay" wx:if="{{gameState === 'start' || gameState === 'success' || gameState === 'fail'}}">
     <view class="modal {{gameState}}">
       <block wx:if="{{gameState === 'start'}}">
         <view class="modal-title">恭请大哑巴</view>
