@@ -33,9 +33,11 @@ Page({
     moodClass: '',
     // 飞入动画对象: { src, x, y }
     flyingItem: null,
-    // 指引文字动画类
-    textAnimClass: ''
+    // 飞入动画对象: { src, x, y }
+    flyingItem: null
   },
+
+  typewriterTimer: null,
 
   onUnload() {
     this.stopTimer();
@@ -101,11 +103,11 @@ Page({
       });
       this.updateInstruction(`步骤 ${index + 1}: ${steps[index].name}`);
 
-      // 1.5秒后播放下一个
+      // 3秒后播放下一个
       setTimeout(() => {
         index++;
         playNext();
-      }, 1500);
+      }, 3000);
     };
 
     playNext();
@@ -259,16 +261,33 @@ Page({
     }, 1200);
   },
 
-  // 更新指引文字带动画
+  // 更新指引文字（打字机效果）
   updateInstruction(text) {
-    this.setData({
-      textAnimClass: '', // 重置动画
-      instructionText: text
-    }, () => {
-      // 下一帧添加动画类
-      setTimeout(() => {
-        this.setData({ textAnimClass: 'fade-in' });
-      }, 50);
-    });
+    // 清除上一次的定时器
+    if (this.typewriterTimer) {
+      clearInterval(this.typewriterTimer);
+      this.typewriterTimer = null;
+    }
+
+    let currentIndex = 0;
+    const length = text.length;
+
+    // 先清空文字
+    this.setData({ instructionText: '' });
+
+    this.typewriterTimer = setInterval(() => {
+      if (currentIndex >= length) {
+        clearInterval(this.typewriterTimer);
+        this.typewriterTimer = null;
+        return;
+      }
+
+      const char = text[currentIndex];
+      this.setData({
+        instructionText: this.data.instructionText + char
+      });
+
+      currentIndex++;
+    }, 50); // 打字速度：50ms/字
   }
 });

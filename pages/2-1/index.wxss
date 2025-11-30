@@ -472,18 +472,12 @@
   box-shadow: 0 0 15px rgba(239, 83, 80, 0.6);
 }
 
-/* --- 7. 指引文字淡入淡出 --- */
+/* --- 7. 指引文字打字机光标 --- */
 .instruction-text {
-  transition: opacity 0.6s ease;
+  position: relative;
+  display: inline-block; 
 }
-.instruction-text.fade-in {
-  animation: text-fade-in 0.9s ease forwards;
-}
-
-@keyframes text-fade-in {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* 光标已移除 */
 
 /* --- 8. 顶部栏高亮脉冲 --- */
 @keyframes pulse-gold {
