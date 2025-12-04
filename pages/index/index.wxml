@@ -50,6 +50,22 @@
       </view>
       <view class="card-arrow">→</view>
     </view>
+
+    <!-- 关卡三：吉祥入户 -->
+    <view class="game-card card-3" bindtap="goToGame3">
+      <view class="card-decoration"></view>
+      <view class="game-icon">🏮</view>
+      <view class="game-content">
+        <view class="game-title-row">
+          <text class="game-title">关卡三 · 吉祥入户</text>
+          <text class="game-tag game-tag-tertiary">节奏 + 资源</text>
+        </view>
+        <text class="game-desc">
+          扮演大哑巴或随行助手，进入村民家中完成“驱邪 → 纳福 → 受礼”的传统流程。
+        </text>
+      </view>
+      <view class="card-arrow">→</view>
+    </view>
   </view>
 
   <!-- 底部文化说明 -->

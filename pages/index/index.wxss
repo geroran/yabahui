@@ -174,6 +174,10 @@
   animation-delay: 0.4s;
 }
 
+.card-3 {
+  animation-delay: 0.6s;
+}
+
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(40rpx); }
   to { opacity: 1; transform: translateY(0); }
@@ -243,6 +247,11 @@
 .game-tag-secondary {
   background: linear-gradient(135deg, #1890ff, #096dd9);
   box-shadow: 0 4rpx 12rpx rgba(24, 144, 255, 0.3);
+}
+
+.game-tag-tertiary {
+  background: linear-gradient(135deg, #52c41a, #13c2c2);
+  box-shadow: 0 4rpx 12rpx rgba(82, 196, 26, 0.3);
 }
 
 .game-desc {

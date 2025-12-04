@@ -15,7 +15,14 @@ Page({
     })
   },
 
-  onLoad() {},
+  // 跳转到关卡三：吉祥入户
+  goToGame3() {
+    wx.navigateTo({
+      url: '/pages/2-3/index',
+    })
+  },
 
-  onShow() {},
+  onLoad() { },
+
+  onShow() { },
 })

@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/2-1/index",
-    "pages/2-2/index"
+    "pages/2-2/index",
+    "pages/2-3/index"
   ],
   "window": {
     "navigationBarTitleText": "哑巴会体验",
