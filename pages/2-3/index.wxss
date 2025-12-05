@@ -810,3 +810,40 @@
   font-size: 28rpx;
   font-weight: bold;
 }
+
+/* 告别阶段样式 */
+.farewell-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.final-message-box {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 60rpx 80rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  animation: slow-fade-in 1.5s ease-out;
+}
+
+.final-message-text {
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 4rpx;
+  text-shadow: 0 4rpx 10rpx rgba(0,0,0,0.5);
+}
+
+@keyframes slow-fade-in {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}

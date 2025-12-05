@@ -31,8 +31,17 @@ Page({
     blessingPrompt: { title: '', desc: '' },
     showBlessingResult: false,
     blessingResultText: '',
+    // --- 纳福阶段 ---
+    blessingScore: 0,
+    currentBlessingTarget: null, // 'stove', 'grain', 'pillar'
+    blessingPrompt: { title: '', desc: '' },
+    showBlessingResult: false,
+    blessingResultText: '',
     blessingTimer: null,
-    isBlessingTime: false
+    isBlessingTime: false,
+
+    // --- 告别阶段 ---
+    farewellState: '' // 'yard_empty', 'yard_gift', 'finished'
   },
 
   // 页面加载
@@ -432,9 +441,26 @@ Page({
     });
 
     setTimeout(() => {
-      // TODO: 切换到告别收礼阶段
-      wx.showToast({ title: '准备进入告别阶段', icon: 'success' });
-      // this.setData({ gameState: 'farewell' }); // Placeholder
+      this.startFarewellPhase();
+    }, 2500);
+  },
+
+  // ---------- 告别阶段 ----------
+  startFarewellPhase() {
+    // Stage 1: Yard Empty
+    this.setData({
+      gameState: 'farewell',
+      farewellState: 'yard_empty'
+    });
+
+    // Stage 2: Yard Gift (after 2.5s)
+    setTimeout(() => {
+      this.setData({ farewellState: 'yard_gift' });
+
+      // Stage 3: Finished Text (after another 2s)
+      setTimeout(() => {
+        this.setData({ farewellState: 'finished' });
+      }, 2000);
     }, 2500);
   },
 
