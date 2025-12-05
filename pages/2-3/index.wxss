@@ -669,3 +669,144 @@
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 4rpx;
 }
+
+/* 纳福阶段样式 */
+.blessing-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50; /* Above puzzle/rhythm/ending but below modals if any */
+}
+
+/* 提示框 */
+.blessing-prompt-box {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 30rpx 50rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid rgba(255, 215, 0, 0.3);
+  text-align: center;
+  opacity: 0;
+  transition: all 0.5s ease-out;
+  pointer-events: none;
+}
+
+.blessing-prompt-box.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.blessing-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 10rpx;
+  text-shadow: 0 2rpx 4rpx rgba(0,0,0,0.5);
+}
+
+.blessing-desc {
+  font-size: 28rpx;
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* 结果反馈 */
+.blessing-result-overlay {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40rpx 60rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 10rpx 40rpx rgba(0,0,0,0.3);
+  z-index: 60;
+  animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.blessing-result-text {
+  font-size: 32rpx;
+  color: #B22222; /* Firebrick red for blessing */
+  font-weight: bold;
+  text-align: center;
+}
+
+@keyframes pop-in {
+  from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* 互动区域目标 (隐形或半透明) */
+.blessing-targets {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.target-area {
+  position: absolute;
+  /* background: rgba(255, 0, 0, 0.3); Debugging: see areas */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 假设位置，需根据实际图片调整 */
+.target-stove {
+  left: 25%;
+  bottom: 30%;
+  width: 250rpx;
+  height: 200rpx;
+}
+
+.target-grain {
+  right: 5%;
+  bottom: 18%;
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.target-pillar {
+  left: 80%;
+  top: 10%;
+  transform: translateX(-50%);
+  width: 180rpx;
+  height: 400rpx;
+}
+
+.target-icon {
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+/* 纳福进度 */
+.blessing-progress {
+  position: absolute;
+  top: 40rpx;
+  right: 40rpx;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
+}
+
+.blessing-progress text {
+  color: #ffd700;
+  font-size: 28rpx;
+  font-weight: bold;
+}

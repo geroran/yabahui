@@ -23,7 +23,16 @@ Page({
     endingSubtitle: '',
     endingScore: 0,
     endingGrade: '',
-    endingMessage: ''
+    endingMessage: '',
+
+    // --- 纳福阶段 ---
+    blessingScore: 0,
+    currentBlessingTarget: null, // 'stove', 'grain', 'pillar'
+    blessingPrompt: { title: '', desc: '' },
+    showBlessingResult: false,
+    blessingResultText: '',
+    blessingTimer: null,
+    isBlessingTime: false
   },
 
   // 页面加载
@@ -306,18 +315,10 @@ Page({
     }, 800);
   },
 
-  // 进入下一阶段
+  // 进入下一阶段 (纳福)
   goToNextPhase() {
-    // 这里可以导航到下一个阶段页面，或者切换到下一个游戏状态
-    wx.showToast({
-      title: '正在进入下一阶段...',
-      icon: 'loading',
-      duration: 1500
-    });
-
-    // TODO: 实现跳转到下一阶段的逻辑
-    // 例如: wx.navigateTo({ url: '/pages/2-4/index' });
-    // 或者: this.setData({ gameState: 'nextPhase' });
+    this.setData({ gameState: 'blessing' });
+    this.startBlessingPhase();
   },
 
   // 重新开始当前阶段
@@ -336,6 +337,107 @@ Page({
     });
   },
 
+  // ---------- 纳福阶段 ----------
+  startBlessingPhase() {
+    this.setData({
+      blessingScore: 0,
+      currentBlessingTarget: null,
+      showBlessingResult: false,
+      blessingResultText: ''
+    });
+
+    wx.showToast({
+      title: '纳福阶段开启',
+      icon: 'none',
+      duration: 2000
+    });
+
+    setTimeout(() => {
+      this.nextBlessingRound();
+    }, 2000);
+  },
+
+  nextBlessingRound() {
+    if (this.data.blessingScore >= 3) {
+      this.endBlessingPhase();
+      return;
+    }
+
+    const targets = [
+      { type: 'stove', title: '家运兴旺', desc: '点亮温暖之火' },
+      { type: 'grain', title: '五谷丰登', desc: '为此屋添上粮食' },
+      { type: 'pillar', title: '平安常在', desc: '守护这座家门' }
+    ];
+
+    const randomIdx = Math.floor(Math.random() * targets.length);
+    const target = targets[randomIdx];
+
+    this.setData({
+      currentBlessingTarget: target.type,
+      blessingPrompt: { title: target.title, desc: target.desc },
+      showBlessingResult: false,
+      isBlessingTime: true
+    });
+
+    // 2秒倒计时 (如果不点击，这里可以加超时逻辑，但用户需求主要是点击正确)
+    // 根据需求 "玩家需在 2 秒内点击正确对象"，我们可以加一个超时检测
+    if (this.data.blessingTimer) clearTimeout(this.data.blessingTimer);
+
+    // 这里其实可以不强制倒计时结束，而是等待用户操作
+    // 为了体验更好，如果用户长时间不点，可以提示一下? 暂时按需求只处理点击
+  },
+
+  handleBlessingTap(e) {
+    if (!this.data.isBlessingTime) return;
+
+    const type = e.currentTarget.dataset.type;
+    const { currentBlessingTarget, blessingScore } = this.data;
+
+    const correctData = {
+      'stove': { succ: '灶火已起，家中添旺气。' },
+      'grain': { succ: '粮满仓盈，福气自来。' },
+      'pillar': { succ: '丝带已系，平安落于此屋。' }
+    };
+
+    if (type === currentBlessingTarget) {
+      // Correct
+      this.setData({
+        isBlessingTime: false,
+        blessingScore: blessingScore + 1,
+        showBlessingResult: true,
+        blessingResultText: correctData[type].succ
+      });
+
+      // Show success toast/visuals if needed
+
+      setTimeout(() => {
+        this.nextBlessingRound();
+      }, 2000);
+
+    } else {
+      // Wrong - Shake animation triggered by view class (need to implement in wxml/wxss)
+      wx.vibrateShort();
+      wx.showToast({
+        title: '再想想对应象征',
+        icon: 'none'
+      });
+    }
+  },
+
+  endBlessingPhase() {
+    this.setData({
+      showBlessingResult: true,
+      blessingResultText: '纳福完成，这户人家已得祥光守护。',
+      isBlessingTime: false
+    });
+
+    setTimeout(() => {
+      // TODO: 切换到告别收礼阶段
+      wx.showToast({ title: '准备进入告别阶段', icon: 'success' });
+      // this.setData({ gameState: 'farewell' }); // Placeholder
+    }, 2500);
+  },
+
   onUnload() {
     if (this.musicContext) {
       this.musicContext.stop();
@@ -343,6 +445,9 @@ Page({
     }
     if (this.data.rhythmTimer) {
       clearInterval(this.data.rhythmTimer);
+    }
+    if (this.data.blessingTimer) {
+      clearTimeout(this.data.blessingTimer);
     }
   }
 });

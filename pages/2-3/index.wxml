@@ -1,7 +1,7 @@
 <view class="container" bindtap="handleTap">
   <!-- 背景层 -->
   <view class="bg-layer">
-    <image class="bg-image" src="{{gameState === 'opening' || gameState === 'puzzle' ? '/pages/2-3/images/1未开启的大门.webp' : '/pages/2-3/images/2门已开启，屋内被雾气笼罩.webp'}}" mode="aspectFill"></image>
+    <image class="bg-image" src="{{gameState === 'opening' || gameState === 'puzzle' ? '/pages/2-3/images/1未开启的大门.webp' : (gameState === 'blessing' ? '/pages/2-3/images/3雾气散去后的屋子.webp' : '/pages/2-3/images/2门已开启，屋内被雾气笼罩.webp')}}" mode="aspectFill"></image>
     <view class="bg-overlay"></view>
   </view>
 
@@ -160,6 +160,45 @@
       <view class="ending-footer">
         <text class="footer-text">驱邪仪式已完成</text>
       </view>
+    </view>
+  </view>
+
+  <!-- 阶段五：纳福阶段 -->
+  <view class="blessing-layer" wx:if="{{gameState === 'blessing'}}">
+    <!-- 提示框 -->
+    <view class="blessing-prompt-box {{isBlessingTime ? 'show' : ''}}">
+      <text class="blessing-title">{{blessingPrompt.title}}</text>
+      <text class="blessing-desc">{{blessingPrompt.desc}}</text>
+    </view>
+
+    <!-- 结果反馈 -->
+    <view class="blessing-result-overlay" wx:if="{{showBlessingResult}}">
+      <text class="blessing-result-text">{{blessingResultText}}</text>
+    </view>
+
+    <!-- 互动区域 -->
+    <view class="blessing-targets">
+      <!-- 灶台 -->
+      <view class="target-area target-stove" bindtap="handleBlessingTap" data-type="stove">
+        <!-- 只有在正确时或者特定状态下才可能显示高亮图标，或者一直显示 subtle 图标 -->
+        <!-- 根据需求"玩家需点击正确对象"，这里放透明点击区，可以加一点微弱提示 -->
+        <image class="target-icon" src="/pages/2-3/images/火柴.webp" mode="aspectFit"></image>
+      </view>
+
+      <!-- 粮袋/谷仓 -->
+      <view class="target-area target-grain" bindtap="handleBlessingTap" data-type="grain">
+        <image class="target-icon" src="/pages/2-3/images/粮食.webp" mode="aspectFit"></image>
+      </view>
+
+      <!-- 门框/梁柱 -->
+      <view class="target-area target-pillar" bindtap="handleBlessingTap" data-type="pillar">
+        <image class="target-icon" src="/pages/2-3/images/红丝带.webp" mode="aspectFit"></image>
+      </view>
+    </view>
+
+    <!-- 纳福进度 -->
+    <view class="blessing-progress">
+      <text>纳福进度: {{blessingScore}} / 3</text>
     </view>
   </view>
 </view>
