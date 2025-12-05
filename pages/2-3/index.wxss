@@ -245,3 +245,427 @@
   from { transform: scale(0.5); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* 驱邪仪式 (节奏游戏) */
+.rhythm-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  animation: fade-in 0.5s ease-out;
+}
+
+.guide-content {
+  width: 80%;
+  background: rgba(30, 30, 30, 0.9);
+  border: 2rpx solid rgba(255, 215, 0, 0.3);
+  border-radius: 20rpx;
+  padding: 40rpx;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 30rpx rgba(0,0,0,0.5);
+}
+
+.guide-title {
+  font-size: 40rpx;
+  color: #ffd700;
+  margin-bottom: 30rpx;
+  display: block;
+  font-weight: bold;
+}
+
+.guide-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 40rpx;
+  display: block;
+}
+
+.guide-btn {
+  background: linear-gradient(45deg, #c0392b, #8e44ad);
+  color: #fff;
+  border: none;
+  border-radius: 40rpx;
+  padding: 16rpx 60rpx;
+  font-size: 32rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.3);
+}
+
+.game-area {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 100rpx;
+}
+
+.score-board {
+  position: absolute;
+  top: 120rpx;
+  right: 40rpx;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 10rpx 30rpx;
+  border-radius: 30rpx;
+  border: 1rpx solid rgba(255,255,255,0.2);
+}
+
+.score-text {
+  color: #ffd700;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.instruments-container {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  margin-bottom: 60rpx;
+}
+
+.instrument {
+  width: 180rpx;
+  height: 180rpx;
+  position: relative;
+  transition: all 0.1s;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instrument image {
+  width: 140rpx;
+  height: 140rpx;
+}
+
+.instrument.active {
+  box-shadow: 0 0 30rpx #ffd700, inset 0 0 20rpx #ffd700;
+  transform: scale(1.1);
+  background: rgba(255, 215, 0, 0.2);
+}
+
+.instrument:active {
+  transform: scale(0.95);
+}
+
+.feedback-popup {
+  position: absolute;
+  pointer-events: none;
+  z-index: 50;
+  animation: feedback-float 0.8s ease-out forwards;
+}
+
+.feedback-text {
+  font-size: 48rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 4rpx rgba(0,0,0,0.5);
+}
+
+.feedback-text.perfect { color: #ffd700; font-size: 60rpx; }
+.feedback-text.good { color: #2ecc71; }
+.feedback-text.miss { color: #e74c3c; }
+
+@keyframes feedback-float {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  20% { transform: translateY(-20rpx) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-60rpx) scale(1); opacity: 0; }
+}
+
+/* 飞出动画 */
+.flying-icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 45;
+}
+
+.flying-icon {
+  position: absolute;
+  width: 80rpx;
+  height: 80rpx;
+  animation: fly-out 0.8s ease-out forwards;
+}
+
+@keyframes fly-out {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -150%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* 结算页面样式 */
+.ending-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fade-in 0.8s ease-out;
+}
+
+.ending-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 40rpx;
+  width: 90%;
+  max-width: 600rpx;
+}
+
+.ending-header {
+  text-align: center;
+  margin-bottom: 60rpx;
+  animation: slide-down 0.6s ease-out 0.2s both;
+}
+
+.ending-title {
+  display: block;
+  font-size: 64rpx;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 20rpx rgba(255, 215, 0, 0.5), 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: 16rpx;
+}
+
+.ending-subtitle {
+  display: block;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 4rpx;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 40rpx;
+  margin-bottom: 50rpx;
+  animation: scale-in 0.5s ease-out 0.4s both;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.score-circle {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8rpx 30rpx rgba(102, 126, 234, 0.4), 0 0 60rpx rgba(102, 126, 234, 0.2);
+  border: 4rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.score-number {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 8rpx;
+}
+
+.grade-badge {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(15deg);
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.3);
+}
+
+.grade-badge.grade-S {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+  box-shadow: 0 6rpx 20rpx rgba(255, 215, 0, 0.5);
+}
+
+.grade-badge.grade-A {
+  background: linear-gradient(135deg, #c0c0c0 0%, #a0a0a0 100%);
+  box-shadow: 0 6rpx 20rpx rgba(192, 192, 192, 0.5);
+}
+
+.grade-badge.grade-B {
+  background: linear-gradient(135deg, #cd7f32 0%, #b87333 100%);
+  box-shadow: 0 6rpx 20rpx rgba(205, 127, 50, 0.5);
+}
+
+.grade-text {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+
+.ending-message-box {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20rpx;
+  padding: 30rpx 40rpx;
+  margin-bottom: 40rpx;
+  backdrop-filter: blur(10px);
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  animation: fade-in-up 0.5s ease-out 0.6s both;
+}
+
+.ending-message {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.ending-divider {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 50rpx;
+  animation: fade-in 0.5s ease-out 0.8s both;
+}
+
+.divider-line {
+  width: 80rpx;
+  height: 2rpx;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+}
+
+.divider-icon {
+  font-size: 32rpx;
+}
+
+.ending-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  width: 100%;
+  animation: fade-in-up 0.5s ease-out 1s both;
+}
+
+.btn-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16rpx;
+  padding: 30rpx 60rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50rpx;
+  box-shadow: 0 8rpx 25rpx rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-next:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 15rpx rgba(102, 126, 234, 0.4);
+}
+
+.btn-next text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.btn-arrow {
+  font-size: 36rpx;
+  animation: arrow-bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes arrow-bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10rpx);
+  }
+}
+
+.btn-restart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24rpx 40rpx;
+  background: transparent;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  border-radius: 50rpx;
+  transition: all 0.3s ease;
+}
+
+.btn-restart:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-restart text {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ending-footer {
+  margin-top: 60rpx;
+  animation: fade-in 0.5s ease-out 1.2s both;
+}
+
+.footer-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 4rpx;
+}

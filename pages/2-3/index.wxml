@@ -1,7 +1,7 @@
 <view class="container" bindtap="handleTap">
   <!-- 背景层 -->
   <view class="bg-layer">
-    <image class="bg-image" src="/pages/2-3/images/1未开启的大门.webp" mode="aspectFill"></image>
+    <image class="bg-image" src="{{gameState === 'opening' || gameState === 'puzzle' ? '/pages/2-3/images/1未开启的大门.webp' : '/pages/2-3/images/2门已开启，屋内被雾气笼罩.webp'}}" mode="aspectFill"></image>
     <view class="bg-overlay"></view>
   </view>
 
@@ -50,6 +50,116 @@
     <view class="success-overlay" wx:if="{{isPuzzleSolved}}">
       <text class="success-text">门已应声而开</text>
       <text class="success-subtext">欢迎步入这户人家</text>
+    </view>
+  </view>
+
+  <!-- 阶段三：驱邪仪式 (节奏游戏) -->
+  <view class="rhythm-layer" wx:if="{{gameState === 'rhythm'}}">
+    <!-- 游戏指引遮罩 -->
+    <view class="guide-overlay" wx:if="{{showRhythmGuide}}" bindtap="startRhythmGame">
+      <view class="guide-content">
+        <text class="guide-title">驱邪仪式</text>
+        <text class="guide-desc">跟随鼓点，点击亮起的法器</text>
+        <text class="guide-sub">驱除邪祟，护佑平安</text>
+        <view class="guide-btn">点击开始</view>
+      </view>
+    </view>
+
+    <!-- 游戏区域 -->
+    <view class="game-area" wx:else>
+      <view class="score-board">
+        <text>得分: {{currentScore}}</text>
+      </view>
+
+      <view class="instruments-container">
+        <view 
+          class="instrument {{activeInstrument === 'bell' ? 'active' : ''}}" 
+          bindtap="handleInstrumentTap" 
+          data-type="bell"
+        >
+          <image src="/pages/2-3/images/法铃.webp" mode="aspectFit"></image>
+        </view>
+        <view 
+          class="instrument {{activeInstrument === 'mortar' ? 'active' : ''}}" 
+          bindtap="handleInstrumentTap" 
+          data-type="mortar"
+        >
+          <image src="/pages/2-3/images/小研臼.webp" mode="aspectFit"></image>
+        </view>
+        <view 
+          class="instrument {{activeInstrument === 'willow' ? 'active' : ''}}" 
+          bindtap="handleInstrumentTap" 
+          data-type="willow"
+        >
+          <image src="/pages/2-3/images/柳枝.webp" mode="aspectFit"></image>
+        </view>
+      </view>
+
+      <!-- 反馈动画 -->
+      <view class="feedback-popup" wx:if="{{feedbackText}}" style="left: {{feedbackPos.x}}px; top: {{feedbackPos.y}}px">
+        <text class="feedback-text {{feedbackClass}}">{{feedbackText}}</text>
+      </view>
+
+      <!-- 点击飞出动画 -->
+      <view class="flying-icons">
+        <image 
+          wx:for="{{flyingIcons}}" 
+          wx:key="id"
+          src="{{item.src}}" 
+          class="flying-icon"
+          style="left: {{item.x}}px; top: {{item.y}}px;"
+        ></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- 阶段四：结算页面 -->
+  <view class="ending-layer" wx:if="{{gameState === 'ending'}}">
+    <view class="ending-content">
+      <!-- 标题区域 -->
+      <view class="ending-header">
+        <text class="ending-title">{{endingTitle}}</text>
+        <text class="ending-subtitle">{{endingSubtitle}}</text>
+      </view>
+
+      <!-- 分数展示 -->
+      <view class="score-display">
+        <view class="score-circle">
+          <text class="score-number">{{endingScore}}</text>
+          <text class="score-label">得分</text>
+        </view>
+        <view class="grade-badge grade-{{endingGrade}}">
+          <text class="grade-text">{{endingGrade}}</text>
+        </view>
+      </view>
+
+      <!-- 评语 -->
+      <view class="ending-message-box">
+        <text class="ending-message">{{endingMessage}}</text>
+      </view>
+
+      <!-- 装饰分割线 -->
+      <view class="ending-divider">
+        <view class="divider-line"></view>
+        <view class="divider-icon">✨</view>
+        <view class="divider-line"></view>
+      </view>
+
+      <!-- 按钮区域 -->
+      <view class="ending-buttons">
+        <view class="btn-next" bindtap="goToNextPhase">
+          <text>进入下一阶段</text>
+          <text class="btn-arrow">→</text>
+        </view>
+        <view class="btn-restart" bindtap="restartGame">
+          <text>重新挑战</text>
+        </view>
+      </view>
+
+      <!-- 底部装饰 -->
+      <view class="ending-footer">
+        <text class="footer-text">驱邪仪式已完成</text>
+      </view>
     </view>
   </view>
 </view>
