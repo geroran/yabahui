@@ -39,6 +39,7 @@ Page({
     blessingResultText: '',
     blessingTimer: null,
     isBlessingTime: false,
+    showBlessingSuccessBG: false,
 
     // --- 告别阶段 ---
     farewellState: '' // 'yard_empty', 'yard_gift', 'finished'
@@ -370,6 +371,7 @@ Page({
       showBlessingResult: false,
       blessingResultText: '',
       isBlessingTime: false,
+      showBlessingSuccessBG: false,
 
       // 告别重置
       farewellState: ''
@@ -469,12 +471,13 @@ Page({
     this.setData({
       showBlessingResult: true,
       blessingResultText: '纳福完成，这户人家已得祥光守护。',
-      isBlessingTime: false
+      isBlessingTime: false,
+      showBlessingSuccessBG: true // Switch specific BG
     });
 
     setTimeout(() => {
       this.startFarewellPhase();
-    }, 2500);
+    }, 3000); // Extended a bit to enjoy the view
   },
 
   // ---------- 告别阶段 ----------
