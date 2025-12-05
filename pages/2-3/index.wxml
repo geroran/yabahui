@@ -41,6 +41,11 @@
       ></view>
     </view>
 
+    <!-- 帮助按钮 -->
+    <view class="help-btn" bindtap="autoSolvePuzzle">
+      <text>有困难，请大哑巴帮忙开门</text>
+    </view>
+
     <!-- 成功提示 -->
     <view class="success-overlay" wx:if="{{isPuzzleSolved}}">
       <text class="success-text">门已应声而开</text>

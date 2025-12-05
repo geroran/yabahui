@@ -112,5 +112,29 @@ Page({
         // this.setData({ gameState: 'rhythm' });
       }, 2500);
     }
+  },
+
+  // 自动完成拼图 (帮助功能)
+  autoSolvePuzzle() {
+    if (this.data.isPuzzleSolved) return;
+
+    wx.showLoading({ title: '大哑巴施法中...' });
+
+    setTimeout(() => {
+      let pieces = this.data.puzzlePieces.map(p => ({
+        ...p,
+        x: p.origX,
+        y: p.origY,
+        isCorrect: true
+      }));
+
+      this.setData({
+        puzzlePieces: pieces,
+        selectedPiece: -1
+      });
+
+      wx.hideLoading();
+      this.checkWin();
+    }, 1000);
   }
 })
