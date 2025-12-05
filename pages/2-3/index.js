@@ -217,12 +217,12 @@ Page({
     let cls = '';
 
     if (type === activeInstrument) {
-      scoreChange = 10;
+      scoreChange = 20;
       feedback = '完美!';
       cls = 'perfect';
       this.setData({ activeInstrument: null });
     } else {
-      scoreChange = -5;
+      scoreChange = -10;
       feedback = '错啦!';
       cls = 'miss';
     }
@@ -274,12 +274,12 @@ Page({
     let endingGrade = '';
     let endingMessage = '';
 
-    if (score >= 40) {
+    if (score >= 100) {
       endingTitle = '驱邪大师';
       endingSubtitle = '邪祟已除，福气满堂！';
       endingGrade = 'S';
       endingMessage = '你的节奏感无人能及，法器在你手中如虎添翼！';
-    } else if (score >= 20) {
+    } else if (score >= 80) {
       endingTitle = '驱邪能手';
       endingSubtitle = '虽有瑕疵，诚意已达';
       endingGrade = 'A';
