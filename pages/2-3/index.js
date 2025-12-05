@@ -330,20 +330,52 @@ Page({
     this.startBlessingPhase();
   },
 
-  // 重新开始当前阶段
+  // 返回上一页
+  goBack() {
+    wx.navigateBack({
+      delta: 1
+    });
+  },
+
+  // 重新开始游戏 (完整重置)
   restartGame() {
+    // 停止所有音频和计时器
+    this.onUnload();
+
     this.setData({
-      gameState: 'rhythm',
+      gameState: 'opening',
+
+      // 拼图重置
+      isPuzzleSolved: false,
+      selectedPiece: -1,
+      puzzlePieces: [],
+
+      // 节奏游戏重置
       showRhythmGuide: true,
       currentScore: 0,
       activeInstrument: null,
+      feedbackText: '',
       isGameEnded: false,
+
+      // 结算重置
       endingTitle: '',
       endingSubtitle: '',
       endingScore: 0,
       endingGrade: '',
-      endingMessage: ''
+      endingMessage: '',
+
+      // 纳福重置
+      blessingScore: 0,
+      currentBlessingTarget: null,
+      showBlessingResult: false,
+      blessingResultText: '',
+      isBlessingTime: false,
+
+      // 告别重置
+      farewellState: ''
     });
+
+    // 重新播放背景音乐(如果有)或其他初始化
   },
 
   // ---------- 纳福阶段 ----------

@@ -1,4 +1,9 @@
 <view class="container" bindtap="handleTap">
+  <!-- 全局返回按钮 -->
+  <view class="back-btn-global" catchtap="goBack">
+    <text>← 返回</text>
+  </view>
+
   <!-- 背景层 -->
   <view class="bg-layer">
     <image class="bg-image" src="{{gameState === 'opening' || gameState === 'puzzle' ? '/pages/2-3/images/1未开启的大门.webp' : (gameState === 'blessing' ? '/pages/2-3/images/3雾气散去后的屋子.webp' : (gameState === 'farewell' ? (farewellState === 'yard_gift' || farewellState === 'finished' ? '/pages/2-3/images/6村民送来礼物后.webp' : '/pages/2-3/images/5院子视角，空无一物.webp') : '/pages/2-3/images/2门已开启，屋内被雾气笼罩.webp'))}}" mode="aspectFill"></image>
@@ -27,7 +32,7 @@
   <view class="puzzle-layer" wx:if="{{gameState === 'puzzle'}}">
     <view class="puzzle-header">
       <text class="puzzle-title">入门解谜</text>
-      <text class="puzzle-subtitle">点击交换拼块，还原大门</text>
+      <text class="puzzle-subtitle">完成拼图，还原大门</text>
     </view>
 
     <view class="puzzle-container">
@@ -207,6 +212,12 @@
     <!-- 最终文案 -->
     <view class="final-message-box" wx:if="{{farewellState === 'finished'}}">
       <text class="final-message-text">吉祥已送达，\n愿下一户更添喜气。</text>
+      
+      <!-- 结局操作按钮 -->
+      <view class="final-actions">
+        <view class="action-btn restart" catchtap="restartGame">再来一次</view>
+        <view class="action-btn back" catchtap="goBack">返回首页</view>
+      </view>
     </view>
   </view>
 </view>
