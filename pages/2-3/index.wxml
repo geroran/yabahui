@@ -1,4 +1,25 @@
-<view class="container">
-  <text>关卡三 · 吉祥入户</text>
-  <text>开发中...</text>
+<view class="container" bindtap="handleTap">
+  <!-- 背景层 -->
+  <view class="bg-layer">
+    <image class="bg-image" src="/pages/2-3/images/1未开启的大门.png" mode="aspectFill"></image>
+    <view class="bg-overlay"></view>
+  </view>
+
+  <!-- 内容层 -->
+  <view class="content-layer" wx:if="{{gameState === 'opening'}}">
+    <view class="text-container">
+      <text class="opening-text line-1">大哑巴今日入户送吉</text>
+      <text class="opening-text line-2">请随他完成驱邪与纳福之礼</text>
+      
+      <view class="divider"></view>
+      
+      <text class="opening-text line-3">仪式开始</text>
+      <text class="opening-text line-4">愿你的脚步带来山风般的祝福</text>
+    </view>
+
+    <view class="start-prompt">
+      <text class="prompt-text">点击屏幕开启仪式</text>
+      <view class="prompt-icon">👆</view>
+    </view>
+  </view>
 </view>
