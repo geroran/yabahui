@@ -1,7 +1,7 @@
 <view class="container" bindtap="handleTap">
   <!-- 背景层 -->
   <view class="bg-layer">
-    <image class="bg-image" src="/pages/2-3/images/1未开启的大门.png" mode="aspectFill"></image>
+    <image class="bg-image" src="/pages/2-3/images/1未开启的大门.webp" mode="aspectFill"></image>
     <view class="bg-overlay"></view>
   </view>
 
@@ -20,6 +20,31 @@
     <view class="start-prompt">
       <text class="prompt-text">点击屏幕开启仪式</text>
       <view class="prompt-icon">👆</view>
+    </view>
+  </view>
+
+  <!-- 解谜层 (拼图) -->
+  <view class="puzzle-layer" wx:if="{{gameState === 'puzzle'}}">
+    <view class="puzzle-header">
+      <text class="puzzle-title">入门解谜</text>
+      <text class="puzzle-subtitle">点击交换拼块，还原大门</text>
+    </view>
+
+    <view class="puzzle-container">
+      <view 
+        class="puzzle-piece {{selectedPiece === index ? 'selected' : ''}} {{item.isCorrect ? 'correct' : ''}}" 
+        wx:for="{{puzzlePieces}}" 
+        wx:key="id"
+        style="left: {{item.x * 200}}rpx; top: {{item.y * 200}}rpx; background-position: -{{item.origX * 200}}rpx -{{item.origY * 200}}rpx;"
+        bindtap="handlePieceTap"
+        data-index="{{index}}"
+      ></view>
+    </view>
+
+    <!-- 成功提示 -->
+    <view class="success-overlay" wx:if="{{isPuzzleSolved}}">
+      <text class="success-text">门已应声而开</text>
+      <text class="success-subtext">欢迎步入这户人家</text>
     </view>
   </view>
 </view>
